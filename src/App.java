@@ -47,7 +47,5 @@ public class App {
 
         // Exibe o indicador
         indicador.exibirIndicador();
-        System.out.println("meu cu");
-       
     }
 }

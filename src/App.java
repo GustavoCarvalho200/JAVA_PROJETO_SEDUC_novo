@@ -1,5 +1,12 @@
+import java.nio.file.Path;
+import java.util.List;
+
 public class App {
     public static void main(String[] args) throws Exception {
+        
+        Path caminhoCsv = Path.of("csv", "versao_que_vamos_usar_completo.csv");
+        
+        List<Municipio> municipios = new LeitorCSV().ler(caminhoCsv);
 
         // Cria uma modalidade de ensino
         ModalidadeEnsino fundamental = new ModalidadeEnsino("Ensino Fundamental", 1.0);

@@ -61,7 +61,7 @@ public class LeitorCSV {
 
             //getheadernames pega os nomes das colunas
 
-            int colunaTotalMatricula = colunas.indexOf("Matriculas Totais");//retorna o numero da coluna matricula total
+            int colunaTotalMatricula = colunas.indexOf("Matrículas Totais");//retorna o numero da coluna matricula total
             int colunaReceita = colunas.indexOf("Receita Prevista");//retorna o numero da coluna receita
             
             List<CSVRecord> linhas = dados.getRecords();//pega cada linha do csv e transfprma num objeto tipo csv record
@@ -82,6 +82,10 @@ public class LeitorCSV {
                 municipio.setTotalMatriculas(total);
                 municipio.setReceitaPrevista(receita);
 
+                for ( i = 3; i < colunaTotalMatricula; i++) {
+                    int quantidade = Integer.parseInt(linha.get(i).trim());
+                }
+
             }
 
 
@@ -89,4 +93,5 @@ public class LeitorCSV {
         return municipios;
     }
 
+}
 }

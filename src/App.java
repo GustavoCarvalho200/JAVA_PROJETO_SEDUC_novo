@@ -8,6 +8,11 @@ public class App {
         
         List<Municipio> municipios = new LeitorCSV().ler(caminhoCsv);
 
+        System.out.println("Municipios carregados do CSV:");
+        for (Municipio municipioCsv : municipios) {
+            System.out.println(municipioCsv);
+        }
+
         // Cria uma modalidade de ensino
         ModalidadeEnsino fundamental = new ModalidadeEnsino("Ensino Fundamental", 1.0);
 

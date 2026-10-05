@@ -57,4 +57,11 @@ public class Municipio {
     public ArrayList<Matricula> getMatriculas() {
         return matriculas;
     }
+
+    @Override
+    public String toString() {
+        return "Municipio [nome=" + nome + ", codigo=" + codigo + ", matriculas=" + matriculas + ", totalMatriculas="
+                + totalMatriculas + ", receitaPrevista=" + receitaPrevista + "]";
+    }
+    
 }

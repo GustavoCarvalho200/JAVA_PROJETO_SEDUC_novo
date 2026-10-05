@@ -3,11 +3,9 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import javax.swing.plaf.multi.MultiButtonUI;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -17,7 +15,7 @@ public class LeitorCSV {
 
    
     
-    public List<Municipio> ler(Path caminho) throws IOException{
+    public List<Municipio> ler(Path caminhoCSV) throws IOException{
         List<Municipio> municipios = new ArrayList<>();
         
 
@@ -47,7 +45,7 @@ public class LeitorCSV {
         2 Files.newBufferedReader = Files eh uma classe, e o newbufferedreader eh a funcao que faz abrir o arquivo que nois quer e ler por BLOCOS 
         
         */
-        try(Reader leitor = Files.newBufferedReader(caminho, StandardCharsets.UTF_8);
+        try(Reader leitor = Files.newBufferedReader(caminhoCSV, StandardCharsets.UTF_8);
 
 
         /*esse CSVParser eh uma classe do csv apache que tem a funcao de entender o arquivo csv linha e coluna
@@ -61,13 +59,30 @@ public class LeitorCSV {
 
             //getheadernames pega os nomes das colunas
 
-            int colunaTotalMatricula = colunas.indexOf("Matrículas Totais");//retorna o numero da coluna matricula total
-            int colunaReceita = colunas.indexOf("Receita Prevista");//retorna o numero da coluna receita
+            int colunaTotalMatricula = -1;
+            int colunaReceita = -1;
+
+            for (int i = 0; i < colunas.size(); i++) {
+                String nomeColuna = normalizarCabecalho(colunas.get(i));
+
+                if (nomeColuna.contains("matriculas") && nomeColuna.contains("totais")) {
+                    colunaTotalMatricula = i;
+                }
+
+                if (nomeColuna.contains("receita") && nomeColuna.contains("contribuicao")
+                        && nomeColuna.contains("fundeb")) {
+                    colunaReceita = i;
+                }
+            }
+
+            if (colunaTotalMatricula == -1 || colunaReceita == -1) {
+                throw new IllegalArgumentException(
+                    "Colunas 'Matriculas Totais' ou 'Receita da contribuicao ao Fundeb' nao encontradas no CSV.");
+            }
             
             List<CSVRecord> linhas = dados.getRecords();//pega cada linha do csv e transfprma num objeto tipo csv record
 
-            for (int i = 0; i < linhas.size(); i++) {
-                CSVRecord linha = linhas.get(i);
+            for (CSVRecord linha : linhas) {
 
                 int codigoMunicipio = Integer.parseInt(linha.get(2).trim());
                 //integer eh uma classe, parse int vai passar os dados linha.get(2), que eh o codigo do municipio 
@@ -81,17 +96,25 @@ public class LeitorCSV {
 
                 municipio.setTotalMatriculas(total);
                 municipio.setReceitaPrevista(receita);
-
-                for ( i = 3; i < colunaTotalMatricula; i++) {
-                    int quantidade = Integer.parseInt(linha.get(i).trim());
-                }
-
+                municipios.add(municipio);
             }
 
 
 
         return municipios;
     }
+    }
 
-}
+    private String normalizarCabecalho(String nomeColuna) {
+        String semAcentos = Normalizer.normalize(nomeColuna, Normalizer.Form.NFD)
+            .replaceAll("\\p{M}", "");
+
+        return semAcentos
+            .replace("\uFEFF", "")
+            .replace("\"", "")
+            .replace("\n", " ")
+            .replace("\r", " ")
+            .trim()
+            .toLowerCase();
+    }
 }

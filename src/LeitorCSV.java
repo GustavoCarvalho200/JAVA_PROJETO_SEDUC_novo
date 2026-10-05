@@ -63,11 +63,15 @@ public class LeitorCSV {
             int colunaReceita = -1;
 
             for (int i = 0; i < colunas.size(); i++) {
+                //vai remober acentos, aspas e quebas de linhas, vai basicamente normalizar o texto e armazenar em nome Coluna
                 String nomeColuna = normalizarCabecalho(colunas.get(i));
+                
 
+              //ai se a variavel nome coluna tiver "matriculas" e  "totais", ele quarda o numero da coluna que tem matriculas totais
                 if (nomeColuna.contains("matriculas") && nomeColuna.contains("totais")) {
                     colunaTotalMatricula = i;
                 }
+
 
                 if (nomeColuna.contains("receita") && nomeColuna.contains("contribuicao")
                         && nomeColuna.contains("fundeb")) {
@@ -75,11 +79,6 @@ public class LeitorCSV {
                 }
             }
 
-            if (colunaTotalMatricula == -1 || colunaReceita == -1) {
-                throw new IllegalArgumentException(
-                    "Colunas 'Matriculas Totais' ou 'Receita da contribuicao ao Fundeb' nao encontradas no CSV.");
-            }
-            
             List<CSVRecord> linhas = dados.getRecords();//pega cada linha do csv e transfprma num objeto tipo csv record
 
             for (CSVRecord linha : linhas) {

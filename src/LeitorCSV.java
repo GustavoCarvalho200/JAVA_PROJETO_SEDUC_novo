@@ -1,4 +1,4 @@
-import java.io.IOException;
+﻿import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -13,7 +14,7 @@ import org.apache.commons.csv.CSVRecord;
 
 public class LeitorCSV {
 
-   
+
     
     public List<Municipio> ler(Path caminhoCSV) throws IOException{
         List<Municipio> municipios = new ArrayList<>();
@@ -116,4 +117,25 @@ public class LeitorCSV {
             .trim()
             .toLowerCase();
     }
+
+    void buscar(List <Municipio> municipios){
+        Scanner scanner = new Scanner(System.in);
+
+System.out.print("Digite o código do município: ");
+int codigo = scanner.nextInt();
+
+
+for (Municipio municipio : municipios) {
+    if (municipio.getCodigo() == codigo) {
+        System.out.println("Código: " + municipio.getCodigo());
+        System.out.println("Nome: " + municipio.getNome());
+        System.out.println("Matrículas: " + municipio.getTotalMatriculas());
+        System.out.println("Receita prevista: " + municipio.getReceitaPrevista());
+
+        break;
+    }
 }
+
+
+       }
+    }

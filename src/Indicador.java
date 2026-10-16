@@ -1,3 +1,4 @@
+// Calcula e exibe a média de alunos por matrícula de um município.
 public class Indicador {
 
     private Municipio municipio;

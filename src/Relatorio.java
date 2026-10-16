@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Locale;
 
+// Reúne municípios e exibe seus dados em um relatório.
 public class Relatorio {
 
     private ArrayList<Municipio> municipios;
@@ -13,27 +15,15 @@ public class Relatorio {
         municipios.add(municipio);
     }
 
-    public void exibirRelatorio() {
-
-        System.out.println("===== RELATORIO FUNDEB =====");
-
-        for (Municipio municipio : municipios) {
-
-            System.out.println("Municipio: " + municipio.getNome());
-            System.out.println("Codigo: " + municipio.getCodigo());
-
-            System.out.println("Matriculas:");
-
-            for (Matricula matricula : municipio.getMatriculas()) {
-
-                System.out.println(matricula.getModalidade().getNome() + ": " + matricula.getQuantidadeAlunos() 
-                + " alunos");
-            }
-
-            System.out.println();
-        }
-
-        System.out.println("Repasse estimado: R$ " + valorRepasse);
+  void exibirMunicipio(Municipio municipio) {
+        System.out.println("Código: " + municipio.getCodigo());
+        System.out.println("Nome: " + municipio.getNome());
+        System.out.println("Matrículas: " + municipio.getTotalMatriculas());
+        System.out.printf(
+                Locale.forLanguageTag("pt-BR"),
+                "Receita prevista: %,.2f%n",
+                municipio.getReceitaPrevista());
+        System.out.println("----------------------");
     }
 
     public ArrayList<Municipio> getMunicipios() {

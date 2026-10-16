@@ -1,3 +1,4 @@
+// Representa uma quantidade de alunos associada a uma modalidade de ensino.
 public class Matricula {
 
     private ModalidadeEnsino modalidade;

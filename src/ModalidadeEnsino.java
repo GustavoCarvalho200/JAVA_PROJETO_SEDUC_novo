@@ -1,3 +1,4 @@
+// Representa uma modalidade de ensino e seu fator ponderado.
 public class ModalidadeEnsino {
 
     private String nome;
